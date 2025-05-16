@@ -31,3 +31,5 @@ action;
 ![alt text](image-3.png)
 
 ![alt text](image-4.png)
+
+## 8-2 Expanding On the ALTER Keyword for table Modification
