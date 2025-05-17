@@ -35,3 +35,20 @@ ALTER COLUMN user_age set NOT NULL;
 ALTER TABLE person2 
 ALTER COLUMN user_age DROP NOT NULL;
 
+
+
+
+UPDATE person2 SET user_age = 32 WHERE id = 1;
+
+
+ALTER TABLE person2
+ADD constraint unique_person2_user_age UNIQUE(user_age);
+
+ALTER TABLE person2
+DROP constraint unique_person2_user_age
+
+ALTER TABLE person2
+ADD constraint pk_person2_user_age PRIMARY KEY(user_age);
+
+DROP TABLE person2;
+TRUNCATE TABLE person2;

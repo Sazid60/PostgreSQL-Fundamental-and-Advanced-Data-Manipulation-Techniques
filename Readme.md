@@ -104,3 +104,62 @@ ALTER COLUMN user_age set NOT NULL;
 ALTER TABLE person2
 ALTER COLUMN user_age DROP NOT NULL;
 ```
+
+## 8-3 Different Method To Alter Tables For Primary Key, Unique Etc
+
+#### More Constrain Change Using ALTER
+
+- We can not set unique, primary key, foreign key, check constrain doing alter, this will give us error. when it comes to individual column works like not null, default value setting, the alter works perfectly. unique, primary key, foreign key, check, here we can engage multiple column, so the syntax is different for these.
+
+##### Adding Unique Constrain and dropping unique key
+
+```sql
+ALTER TABLE person2
+ADD constraint unique_person2_user_age UNIQUE(user_age);
+```
+
+- here `unique_person2_user_age` is just a name so that we can remember.
+- If we want to drop the unique kye constraint
+
+```sql
+
+ALTER TABLE person2
+DROP constraint unique_person2_user_age
+
+```
+
+##### Adding Primary Key Constrain
+
+```sql
+ALTER TABLE person2
+ADD constraint pk_person2_user_age PRIMARY KEY(user_age);
+```
+
+#### Adding Check Constrain
+
+```sql
+ALTER TABLE person2
+ADD CONSTRAINT check_valid_age CHECK (user_age >= 18 AND user_age <= 100);
+```
+
+##### Like this we can also use for foreign key.
+
+#### Using TRUNCATE
+
+- If we want to keep the table structure but there will be no data then we will use truncate
+
+```sql
+TRUNCATE TABLE person2;
+```
+
+- if we use drop the entire table with structure will be gone.
+
+```sql
+DROP TABLE person2;
+```
+
+#### Using Select
+
+- The `SELECT` statement is used to retrieve data from one or more tables and can be customized with `conditions`, `sorting` and other clauses. Its basically used fro data query
+
+![alt text](<WhatsApp Image 2025-05-17 at 10.47.19_68505fc6.jpg>)
