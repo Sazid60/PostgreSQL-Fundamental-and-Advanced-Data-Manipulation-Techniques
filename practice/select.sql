@@ -35,6 +35,7 @@ INSERT INTO students (first_name, last_name, age, grade, course, email, dob, blo
 ('Andrew', 'Clark', 21, 'A+', 'Biology', 'andrew.clark@example.com', '2003-06-20', 'A+', 'Canada'),
 ('Ella', 'Lewis', 22, 'B-', 'English', 'ella.lewis@example.com', '2002-04-08', 'AB-', 'USA');
 
+SELECT * FROM students;
 SELECT email FROM students;
 SELECT email,age,blood_group FROM students;
 
@@ -49,3 +50,55 @@ SELECT * FROM students ORDER BY first_name DESC;
 SELECT first_name FROM students ORDER BY first_name DESC;
 
 SELECT * FROM students ORDER BY age DESC;
+
+SELECT DISTINCT country from students ORDER BY country ASC;
+
+SELECT DISTINCT blood_group FROM students;
+
+-- - select students from USA,
+SELECT * FROM students
+WHERE country = 'USA';
+
+-- - select students with 'A' grade in physics
+SELECT * FROM students
+WHERE grade = 'A' AND course = 'Physics';
+
+-- - select student with specific blood_group ('A+')
+SELECT * FROM students
+WHERE blood_group = 'A+';
+
+-- - select students from usa and australia
+
+SELECT * FROM students
+WHERE country = 'Australia' OR  country = 'USA'
+
+-- - select students from usa and australia and the age is 20
+
+SELECT * from students
+WHERE (country = 'USA' OR country='Australia') AND age =20;
+-- - select students with 'A' or 'B' grade in math or physics
+
+-- - select students older than 20 years
+
+SELECT * FROM students
+WHERE age >= 20;
+
+
+-- - select students older than 20 years and subject is History
+
+SELECT * FROM students
+WHERE age >= 20 AND course='History';
+
+-- - select students who are not = 20 years
+
+SELECT * FROM students
+-- where age != 20;
+where age <> 20;
+
+SELECT * FROM students
+where country <> 'USA';
+
+-- - select students with 'A' or 'B' grade in math or physics
+
+SELECT * FROM students
+where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')

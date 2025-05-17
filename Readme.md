@@ -164,7 +164,7 @@ DROP TABLE person2;
 
 ![alt text](<WhatsApp Image 2025-05-17 at 10.47.19_68505fc6.jpg>)
 
-## 8-4 bMastering SELECT Queries: Column Aliasing and Result Ordering In PostgreSQL
+## 8-4 Mastering SELECT Queries: Column Aliasing and Result Ordering In PostgreSQL
 
 - lets create a table
 
@@ -265,3 +265,93 @@ SELECT first_name FROM students ORDER BY first_name DESC;
 ```
 
 - by using `ORDER BY` we can see the data by sorting
+
+## 8-5 Data Filtering: WHERE Clause, Logical Operators, and Comparison Operators
+
+#### DISTINCT
+
+- we have some duplicate countries, now we want to see the distinct countries only(UNIQUE COUNTRIES) we have to use `DISTINCT`.
+
+```sql
+SELECT DISTINCT country from students ORDER BY country ASC;
+```
+
+- to see the distinct blood_group
+
+```sql
+SELECT DISTINCT blood_group FROM students;
+```
+
+#### Filtering data Using `WHERE`(CONDITION BASED FILTERING)
+
+##### Data Filtering
+
+- select students from USA,
+
+```sql
+SELECT * FROM students
+WHERE country = 'USA';
+```
+
+- select students with 'A' grade in physics
+
+```sql
+SELECT * FROM students
+WHERE grade='A' AND course = 'Physics';
+-- AND keyword is used to combine two conditions
+```
+
+- select student with specific blood_group ('A+')
+
+```sql
+SELECT * FROM students
+WHERE blood_group = 'A+';
+```
+
+- select students from usa or australia
+
+```sql
+SELECT * FROM students
+WHERE country = 'Australia' OR  country = 'USA'
+```
+
+- select students from usa or australia and the age is 20
+
+```sql
+SELECT * from students
+WHERE (country = 'USA' OR country='Australia') AND age =20;
+-- here comparison operator can also be used.
+```
+
+- use comparison operator. select students older than = 20 years
+
+```sql
+SELECT * FROM students
+WHERE age >= 20;
+
+```
+
+- select students older than 20 years and subject is History
+
+```sql
+SELECT * FROM students
+WHERE age >= 20 AND course='History';
+```
+
+- select students who are not = 20 years
+
+```sql
+SELECT * FROM students
+-- where age != 20;
+where age <> 20;
+
+SELECT * FROM students
+where country <> 'USA';
+```
+
+- select students with 'A' or 'B' grade in math or physics
+
+```sql
+SELECT * FROM students
+where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')
+```
