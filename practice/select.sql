@@ -35,6 +35,7 @@ INSERT INTO students (first_name, last_name, age, grade, course, email, dob, blo
 ('Andrew', 'Clark', 21, 'A+', 'Biology', 'andrew.clark@example.com', '2003-06-20', 'A+', 'Canada'),
 ('Ella', 'Lewis', 22, 'B-', 'English', 'ella.lewis@example.com', '2002-04-08', 'AB-', 'USA');
 
+SELECT * FROM students;
 SELECT email FROM students;
 SELECT email,age,blood_group FROM students;
 
@@ -49,3 +50,174 @@ SELECT * FROM students ORDER BY first_name DESC;
 SELECT first_name FROM students ORDER BY first_name DESC;
 
 SELECT * FROM students ORDER BY age DESC;
+
+SELECT DISTINCT country from students ORDER BY country ASC;
+
+SELECT DISTINCT blood_group FROM students;
+
+-- - select students from USA,
+SELECT * FROM students
+WHERE country = 'USA';
+
+-- - select students with 'A' grade in physics
+SELECT * FROM students
+WHERE grade = 'A' AND course = 'Physics';
+
+-- - select student with specific blood_group ('A+')
+SELECT * FROM students
+WHERE blood_group = 'A+';
+
+-- - select students from usa and australia
+
+SELECT * FROM students
+WHERE country = 'Australia' OR  country = 'USA'
+
+-- - select students from usa and australia and the age is 20
+
+SELECT * from students
+WHERE (country = 'USA' OR country='Australia') AND age =20;
+-- - select students with 'A' or 'B' grade in math or physics
+
+-- - select students older than 20 years
+
+SELECT * FROM students
+WHERE age >= 20;
+
+
+-- - select students older than 20 years and subject is History
+
+SELECT * FROM students
+WHERE age >= 20 AND course='History';
+
+-- - select students who are not = 20 years
+
+SELECT * FROM students
+-- where age != 20;
+where age <> 20;
+
+SELECT * FROM students
+where country <> 'USA';
+
+-- - select students with 'A' or 'B' grade in math or physics
+
+SELECT * FROM students
+where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')
+
+SELECT * FROM students
+
+SELECT upper(first_name),* FROM students;
+
+SELECT upper(first_name) as first_name_in_upper_case, * FROM students;
+
+SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+
+SELECT length(first_name) FROM students;
+
+select avg(age) from students;
+
+select max(age) from students;
+select min(age) from students;
+select sum(age) from students;
+
+select count(*) from students;
+
+SELECT max(length(first_name)) FROM students
+
+SELECT * FROM students
+where NOT country = 'USA';
+
+SELECT NULL= NULL;
+
+SELECT NULL <> NULL
+
+SELECT NULL <> 1
+
+SELECT NULL = 1
+
+SELECT * FROM students
+where email != NULL;
+
+SELECT * FROM students;
+
+SELECT * FROM students
+where email != NULL;
+
+SELECT * FROM students
+where email IS NULL;
+
+SELECT * FROM students
+where email IS not NULL;
+
+SELECT COALESCE(NULL,NULL,5)
+
+SELECT email from students;
+SELECT COALESCE(email,'No Email') as "Email", blood_group, first_name from students;
+
+SELECT * FROM  students
+WHERE country='USA' OR country='UK' OR country='Canada';
+
+
+
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada');
+
+
+SELECT * FROM  students
+WHERE country NOT IN('USA','UK','Canada');
+
+SELECT * FROM students
+WHERE age BETWEEN 19 AND 20
+
+SELECT * FROM students
+WHERE dob BETWEEN '2001-01-14' AND '2003-01-14' ORDER BY dob;
+
+
+SELECT * FROM students
+where last_name LIKE '%n';
+
+SELECT * FROM students
+where last_name LIKE 'A%';
+
+SELECT * FROM students
+where first_name LIKE '__a%';
+
+SELECT * FROM students
+where first_name LIKE '___a_';
+
+SELECT * FROM students
+where last_name ILIKE 'a%';
+
+
+SELECT * FROM students LIMIT 5;
+
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada') LIMIT 2;
+
+SELECT * FROM students limit 5 OFFSET 2;
+
+-- pagination__________________________________________________________________
+-- first page
+SELECT * FROM students limit 5 OFFSET 5 * 0;
+-- second page
+SELECT * FROM students limit 5 OFFSET 5 * 1;
+-- third page
+SELECT * FROM students limit 5 OFFSET 5 * 2;
+-- fourth page
+SELECT * FROM students limit 5 OFFSET 5 * 3;
+
+SELECT * FROM students;
+
+DELETE FROM students;
+
+DELETE FROM students
+WHERE grade = 'B';
+DELETE FROM students
+WHERE grade = 'C' AND country='USA';
+
+UPDATE students 
+set email = 'default@email.com'
+where student_id = 1;
+
+UPDATE students 
+set email = 'default@email.com', age = 100, course = 'CS50'
+where student_id = 20;

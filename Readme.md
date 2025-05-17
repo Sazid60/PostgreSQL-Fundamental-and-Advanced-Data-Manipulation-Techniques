@@ -164,7 +164,7 @@ DROP TABLE person2;
 
 ![alt text](<WhatsApp Image 2025-05-17 at 10.47.19_68505fc6.jpg>)
 
-## 8-4 bMastering SELECT Queries: Column Aliasing and Result Ordering In PostgreSQL
+## 8-4 Mastering SELECT Queries: Column Aliasing and Result Ordering In PostgreSQL
 
 - lets create a table
 
@@ -265,3 +265,557 @@ SELECT first_name FROM students ORDER BY first_name DESC;
 ```
 
 - by using `ORDER BY` we can see the data by sorting
+
+## 8-5 Data Filtering: WHERE Clause, Logical Operators, and Comparison Operators
+
+#### DISTINCT
+
+- we have some duplicate countries, now we want to see the distinct countries only(UNIQUE COUNTRIES) we have to use `DISTINCT`.
+
+```sql
+SELECT DISTINCT country from students ORDER BY country ASC;
+```
+
+- to see the distinct blood_group
+
+```sql
+SELECT DISTINCT blood_group FROM students;
+```
+
+#### Filtering data Using `WHERE`(CONDITION BASED FILTERING)
+
+##### Data Filtering
+
+- select students from USA,
+
+```sql
+SELECT * FROM students
+WHERE country = 'USA';
+```
+
+- select students with 'A' grade in physics
+
+```sql
+SELECT * FROM students
+WHERE grade='A' AND course = 'Physics';
+-- AND keyword is used to combine two conditions
+```
+
+- select student with specific blood_group ('A+')
+
+```sql
+SELECT * FROM students
+WHERE blood_group = 'A+';
+```
+
+- select students from usa or australia
+
+```sql
+SELECT * FROM students
+WHERE country = 'Australia' OR  country = 'USA'
+```
+
+- select students from usa or australia and the age is 20
+
+```sql
+SELECT * from students
+WHERE (country = 'USA' OR country='Australia') AND age =20;
+-- here comparison operator can also be used.
+```
+
+- use comparison operator. select students older than = 20 years
+
+```sql
+SELECT * FROM students
+WHERE age >= 20;
+
+```
+
+- select students older than 20 years and subject is History
+
+```sql
+SELECT * FROM students
+WHERE age >= 20 AND course='History';
+```
+
+- select students who are not = 20 years
+
+```sql
+SELECT * FROM students
+-- where age != 20;
+where age <> 20;
+
+SELECT * FROM students
+where country <> 'USA';
+```
+
+- select students with 'A' or 'B' grade in math or physics
+
+```sql
+SELECT * FROM students
+where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')
+```
+
+## 8-6 Exploring Scalar and Aggregate Functions in PostgreSQL
+
+#### `Upper()` Function
+
+- Suppose we want to see the first_name of all in capital word while seeing. we can use `upper()` function to see.
+
+```sql
+SELECT upper(first_name) FROM students;
+```
+
+- if we want to see the upper cased first_name and all the table data we have to use this.
+
+```sql
+SELECT upper(first_name),* FROM students;
+```
+
+![alt text](image-12.png)
+
+- This is doing something like taking the first name and creating a column named upper and keeping there.
+- we can change the name of the column as well using alias
+
+```sql
+SELECT upper(first_name) as first_name_in_upper_case, * FROM students;
+```
+
+#### `Concat()` Function
+
+- Suppose we want to see the first name and the last name to form a full name we can use concat
+
+```sql
+SELECT concat(first_name, last_name) FROM students;
+```
+
+```sql
+SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+```
+
+![alt text](image-13.png)
+
+#### `Length()` Function
+
+```sql
+SELECT length(first_name) FROM students;
+```
+
+#### Functions in depth in postgres
+
+- `upper()`, `concat()` these are called Functions(scaler) in Postgres
+- there two types of functions in postgres
+
+  1. `Scaler`: Operate ona single value and return a single value. they perform an operation on each rows data independently. This function will run one time against one row and will give value for each row and will run independently as a result there will no connection on previous or upcoming row. If we call scaler function we will get multiple data since it will give data for each row.
+
+  ```sql
+  SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+  ```
+
+  ![alt text](<WhatsApp Image 2025-05-17 at 14.47.56_7bcc3448.jpg>)
+
+##### There are some `scaler` functions
+
+- `UPPER()` Converts a string to uppercase
+- `LOWER()` Converts a string to Lowercase
+- `CONCAT()` Concatenates two or more strings
+- `LENGTH()` Returns the number of characters in a string
+
+  1. `Aggregate` : Aggregate Function operate on a set of values and return a single value summarizing the set. They perform an operation across multiple rows, often used with `GROUP BY` clause.
+
+  ![alt text](<WhatsApp Image 2025-05-17 at 14.51.50_6449e6c5.jpg>)
+
+##### There are some `aggregation` functions
+
+- `AVG()` Calculate the average of a set of values
+
+  ```sql
+  select avg(age) from students;
+  ```
+
+- `MAX()` Returns the max value in a set
+
+  ```sql
+  select max(age) from students;
+  ```
+
+- `MIN()` Returns the minimum values in a set
+
+  ```sql
+  select min(age) from students;
+  ```
+
+- `SUM()` Calculates the sum of values in a set
+
+  ```sql
+  select sum(age) from students;
+  ```
+
+- `COUNT()` Counts The number of rows in a set
+
+  ```sql
+  select count(*) from students;
+  -- This will count the rows
+  ```
+
+##### We can use the `scaler` and `aggregate` function together as well
+
+- suppose we want see whose first_name length is maximum?
+
+```sql
+SELECT max(length(first_name)) FROM students
+```
+
+![alt text](image-14.png)
+
+## 8-7 Logical Negation NOT, understanding NULL and the Null-Coalescing Operator in PostgreSQL
+
+#### Using Logical Negation `NOT`
+
+```sql
+SELECT * FROM students
+where country <> 'USA';
+```
+
+- we can write this using `NOT`
+
+```sql
+SELECT * FROM students
+where NOT country = 'USA';
+```
+
+- When we will write complex query then we will be able to reverse the query using `NOT` to negate.
+
+#### Usage of `NULL`
+
+- Null is crucial part since it depends on us and we have to handle smartly.
+- js null si neither true neither false. but in postgres null is false.
+- Null and empty string is different
+- Whatever we do using null, everything will be null.
+
+  ```sql
+  SELECT NULL= NULL
+  ```
+
+  ![alt text](image-15.png)
+
+  ```sql
+  SELECT NULL <> NULL
+
+  ```
+
+  ```sql
+  SELECT NULL = 1
+
+  ```
+
+  ```sql
+  SELECT NULL <> 1
+  ```
+
+![alt text](image-16.png)
+
+#### `IS` operator usage
+
+- Suppose we want to find the students who's email value is not null
+
+```sql
+SELECT * FROM students
+where email != NULL;
+```
+
+- this not right since whatever we do with null it will give us null and this give nothing of the table. but we need true of false. for this reason we will use `IS` Operator.
+
+```sql
+SELECT * FROM students
+where email IS NULL;
+
+SELECT * FROM students
+where email IS not NULL;
+```
+
+#### `Null-Coalescing` Operator
+
+- suppose we have a situation like we know there might be some null values in email field. When sending to frontend it might cause error in frontend for being null. for this we have to set a default value so that frontend do not give error. and here `Coalescing` operator comes with help.
+
+```sql
+SELECT COALESCE(NULL,NULL,5)
+
+-- The values are: NULL, NULL, 5
+-- NULL is skipped.
+-- NULL is skipped.
+-- 5 is the first non-NULL value → so it is returned.
+```
+
+- Lets try with a column
+- This will do something like if the email field is null i will show the given value for the null email.
+
+```sql
+SELECT COALESCE(email,'No Email') from students;
+
+SELECT COALESCE(email,'No Email') as "Email", blood_group, first_name from students;
+```
+
+## 8-8 Exploring IN, BETWEEN, LIKE, and ILIKE Operators in PostgreSQL.
+
+#### `IN` keyword usage
+
+- suppose we want to see who are from USA,UK,Canada
+
+```sql
+SELECT * FROM  students
+WHERE country='USA' OR country='UK' OR country='Canada';
+```
+
+- This is lengthy query and some repetitive things we are writing. so we can use `IN` keyword
+
+```sql
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada');
+```
+
+- This doing same thing like multiple or
+
+#### `NOT IN` keyword usage
+
+- This is reverse of `IN` keyword. and giving who are not from USA,UK,Canada
+
+```sql
+SELECT * FROM  students
+WHERE country NOT IN('USA','UK','Canada');
+```
+
+#### `BETWEEN` Keyword usage
+
+- Suppose we want to grab the students who's are age in between 18-20
+
+```sql
+SELECT * FROM students
+WHERE age BETWEEN 19 AND 20
+```
+
+- this `between` used more with date
+
+```sql
+SELECT * FROM students
+WHERE dob BETWEEN '2001-01-14' AND '2003-01-14'
+```
+
+- we can sort as well
+
+```sql
+SELECT * FROM students
+WHERE dob BETWEEN '2001-01-14' AND '2003-01-14' ORDER BY dob;
+```
+
+#### `LIKE` operator usage
+
+- Its kind of search. I8 will give pattern like string, if anything matches with it, it will return the data.
+- Its like regex
+- suppose we want the name who has `n` at the end
+
+```sql
+SELECT * FROM students
+where last_name LIKE '%n';
+```
+
+- Here % means before `n` anything could be but it will end with `n` word.
+
+```sql
+SELECT * FROM students
+where last_name LIKE 'A%';
+```
+
+- Here % means after `A` anything could be but it will start with `A` word.
+- `LIKE` is case sensitive.
+
+```sql
+SELECT * FROM students
+where first_name LIKE '__a%';
+```
+
+- This means after first two character third character will `a` and after a there can be anything.
+
+![alt text](image-17.png)
+
+```sql
+SELECT * FROM students
+where first_name LIKE '___a_';
+```
+
+#### `ILIKE` usage
+
+- `ILIKE` is cas insensitive
+
+```sql
+SELECT * FROM students
+where last_name ILIKE 'a%';
+```
+
+## 8-9 Pagination with Limit Offset and Data Deletion in PostgreSQL
+
+- `LIMIT` and `OFFSET` is useful while doing pagination.
+
+#### Lets Understand `Limit`
+
+```sql
+SELECT * FROM students;
+```
+
+- This is giving us all the data in one page.
+
+- Now we will limit how many `columns` it will give me and how many `rows` it will give me.
+- lets say i just want 5 data
+
+```sql
+SELECT * FROM students LIMIT 5;
+```
+
+![alt text](image-19.png)
+
+- We can say to `Limit` after any query.
+
+```sql
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada') LIMIT 2;
+```
+
+#### Lets Understand `OFFSET`
+
+- Lets think of it like skip first 2 and then give me 5 data after the 2
+
+```sql
+SELECT * FROM students limit 5 OFFSET 2;
+```
+
+#### Now lets think about how do we implement with `LIMIT` and `OFFSET`
+
+- Suppose we have 5 pages and we know how many data each page will contain. lets assume we want to show 5 data per page. for first page we tell backend that its 0 number page, for second page we will tell backend this is 1 number page like array index.
+
+```sql
+-- pagination__________________________________________________________________
+-- first page
+SELECT * FROM students limit 5 OFFSET 5 * 0;
+-- second page
+SELECT * FROM students limit 5 OFFSET 5 * 1;
+-- third page
+SELECT * FROM students limit 5 OFFSET 5 * 2;
+-- fourth page
+SELECT * FROM students limit 5 OFFSET 5 * 3;
+
+```
+
+#### Now lets see deletion of a data `Delete`
+
+- we may delete one row or multiple row.
+
+```sql
+DELETE FROM students;
+```
+
+- this will delete all the data in the table this is not right.
+
+- Delete the students who have got B,
+
+```sql
+DELETE FROM students
+WHERE grade = 'B';
+```
+
+- another one
+
+```sql
+DELETE FROM students
+WHERE grade = 'C' AND country='USA';
+```
+
+- we can any condition for delegation.
+
+## 8-10 Understanding and Using the UPDATE Operator in PostgreSQL
+
+- There is a issue with the serial number, even if all the data is deleted the serial number will start from the last number he had perviously. This is default behavior
+
+- This is how we can change email maintaining the condition.
+
+```sql
+UPDATE students
+set email = 'default@email.com'
+where student_id = 1;
+```
+
+- we can update multiple column data at a time
+
+```sql
+UPDATE students
+set email = 'default@email.com', age = 100, course = 'CS50'
+where student_id = 20;
+```
+
+## Practice Task
+
+Practice Tasks: Module-8
+
+https://docs.google.com/document/d/1yxfMf68CPgHahza6aAkL_eauCsNeoEc9uwbHPNuR-RM/mobilebasic?usp=embed_facebook
+
+Demo Table Overview
+All of the following tasks are based on a sample table named students. Use this as a reference while solving the following tasks. Here's a quick overview of the structure:
+
+Column Name
+
+Description
+
+id
+
+Auto-incremented primary key
+
+roll
+
+Unique roll number for each student
+
+name
+
+Name of the student
+
+age
+
+Age of the student
+
+department
+
+Student’s department (e.g., CSE, EEE)
+
+score
+
+Score achieved by the student
+
+status
+
+Academic status (e.g., passed, failed)
+
+last_login
+
+Last login date
+
+Table Alteration Tasks (Based on 8-1 to 8-3)
+Add a column email (VARCHAR) to the existing students table.
+Rename the column email to student_email.
+Add a UNIQUE constraint to student_email.
+Add a PRIMARY KEY to a new table named courses.
+Drop a column from any existing table.
+
+Filtering & Logical Operations (Based on 8-5, 8-7, 8-8)
+Write a query to find all students who have a score greater than 80 and not null.
+Use the NOT operator to exclude students from a specific department.
+Fetch students whose names start with ‘A’ using LIKE and ILIKE.
+Select all students whose age is between 18 and 25.
+Retrieve rows using IN for a specific set of roll numbers.
+
+Aggregate Functions (Based on 8-6)
+Count how many students exist in the students table.
+Find the average score of students in a specific department.
+Get the maximum and minimum age of all students.
+
+Update & Delete Operations (Based on 8-9, 8-10)
+Update the status of students who scored less than 50 to 'failed'.
+Delete students who have not logged in since last year.
+Use LIMIT and OFFSET to fetch the second page of results (5 per page).
