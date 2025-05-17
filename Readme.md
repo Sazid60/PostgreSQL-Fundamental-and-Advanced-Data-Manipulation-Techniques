@@ -467,3 +467,91 @@ SELECT max(length(first_name)) FROM students
 ```
 
 ![alt text](image-14.png)
+
+## 8-7 Logical Negation NOT, understanding NULL and the Null-Coalescing Operator in PostgreSQL
+
+#### Using Logical Negation `NOT`
+
+```sql
+SELECT * FROM students
+where country <> 'USA';
+```
+
+- we can write this using `NOT`
+
+```sql
+SELECT * FROM students
+where NOT country = 'USA';
+```
+
+- When we will write complex query then we will be able to reverse the query using `NOT` to negate.
+
+#### Usage of `NULL`
+
+- Null is crucial part since it depends on us and we have to handle smartly.
+- js null si neither true neither false. but in postgres null is false.
+- Null and empty string is different
+- Whatever we do using null, everything will be null.
+
+  ```sql
+  SELECT NULL= NULL
+  ```
+
+  ![alt text](image-15.png)
+
+  ```sql
+  SELECT NULL <> NULL
+
+  ```
+
+  ```sql
+  SELECT NULL = 1
+
+  ```
+
+  ```sql
+  SELECT NULL <> 1
+  ```
+
+![alt text](image-16.png)
+
+#### `IS` operator usage
+
+- Suppose we want to find the students who's email value is not null
+
+```sql
+SELECT * FROM students
+where email != NULL;
+```
+
+- this not right since whatever we do with null it will give us null and this give nothing of the table. but we need true of false. for this reason we will use `IS` Operator.
+
+```sql
+SELECT * FROM students
+where email IS NULL;
+
+SELECT * FROM students
+where email IS not NULL;
+```
+
+#### `Null-Coalescing` Operator
+
+- suppose we have a situation like we know there might be some null values in email field. When sending to frontend it might cause error in frontend for being null. for this we have to set a default value so that frontend do not give error. and here `Coalescing` operator comes with help.
+
+```sql
+SELECT COALESCE(NULL,NULL,5)
+
+-- The values are: NULL, NULL, 5
+-- NULL is skipped.
+-- NULL is skipped.
+-- 5 is the first non-NULL value → so it is returned.
+```
+
+- Lets try with a column
+- This will do something like if the email field is null i will show the given value for the null email.
+
+```sql
+SELECT COALESCE(email,'No Email') from students;
+
+SELECT COALESCE(email,'No Email') as "Email", blood_group, first_name from students;
+```

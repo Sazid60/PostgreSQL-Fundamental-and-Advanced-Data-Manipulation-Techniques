@@ -122,3 +122,33 @@ select sum(age) from students;
 select count(*) from students;
 
 SELECT max(length(first_name)) FROM students
+
+SELECT * FROM students
+where NOT country = 'USA';
+
+SELECT NULL= NULL;
+
+SELECT NULL <> NULL
+
+SELECT NULL <> 1
+
+SELECT NULL = 1
+
+SELECT * FROM students
+where email != NULL;
+
+SELECT * FROM students;
+
+SELECT * FROM students
+where email != NULL;
+
+SELECT * FROM students
+where email IS NULL;
+
+SELECT * FROM students
+where email IS not NULL;
+
+SELECT COALESCE(NULL,NULL,5)
+
+SELECT email from students;
+SELECT COALESCE(email,'No Email') as "Email", blood_group, first_name from students;
