@@ -186,3 +186,30 @@ where first_name LIKE '___a_';
 
 SELECT * FROM students
 where last_name ILIKE 'a%';
+
+
+SELECT * FROM students LIMIT 5;
+
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada') LIMIT 2;
+
+SELECT * FROM students limit 5 OFFSET 2;
+
+-- pagination__________________________________________________________________
+-- first page
+SELECT * FROM students limit 5 OFFSET 5 * 0;
+-- second page
+SELECT * FROM students limit 5 OFFSET 5 * 1;
+-- third page
+SELECT * FROM students limit 5 OFFSET 5 * 2;
+-- fourth page
+SELECT * FROM students limit 5 OFFSET 5 * 3;
+
+SELECT * FROM students;
+
+DELETE FROM students;
+
+DELETE FROM students
+WHERE grade = 'B';
+DELETE FROM students
+WHERE grade = 'C' AND country='USA';

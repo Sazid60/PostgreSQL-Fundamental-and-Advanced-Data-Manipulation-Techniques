@@ -651,3 +651,82 @@ where first_name LIKE '___a_';
 SELECT * FROM students
 where last_name ILIKE 'a%';
 ```
+
+## 8-9 Pagination with Limit Offset and Data Deletion in PostgreSQL
+
+- `LIMIT` and `OFFSET` is useful while doing pagination.
+
+#### Lets Understand `Limit`
+
+```sql
+SELECT * FROM students;
+```
+
+- This is giving us all the data in one page.
+
+- Now we will limit how many `columns` it will give me and how many `rows` it will give me.
+- lets say i just want 5 data
+
+```sql
+SELECT * FROM students LIMIT 5;
+```
+
+![alt text](image-19.png)
+
+- We can say to `Limit` after any query.
+
+```sql
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada') LIMIT 2;
+```
+
+#### Lets Understand `OFFSET`
+
+- Lets think of it like skip first 2 and then give me 5 data after the 2
+
+```sql
+SELECT * FROM students limit 5 OFFSET 2;
+```
+
+#### Now lets think about how do we implement with `LIMIT` and `OFFSET`
+
+- Suppose we have 5 pages and we know how many data each page will contain. lets assume we want to show 5 data per page. for first page we tell backend that its 0 number page, for second page we will tell backend this is 1 number page like array index.
+
+```sql
+-- pagination__________________________________________________________________
+-- first page
+SELECT * FROM students limit 5 OFFSET 5 * 0;
+-- second page
+SELECT * FROM students limit 5 OFFSET 5 * 1;
+-- third page
+SELECT * FROM students limit 5 OFFSET 5 * 2;
+-- fourth page
+SELECT * FROM students limit 5 OFFSET 5 * 3;
+
+```
+
+#### Now lets see deletion of a data `Delete`
+
+- we may delete one row or multiple row.
+
+```sql
+DELETE FROM students;
+```
+
+- this will delete all the data in the table this is not right.
+
+- Delete the students who have got B,
+
+```sql
+DELETE FROM students
+WHERE grade = 'B';
+```
+
+- another one
+
+```sql
+DELETE FROM students
+WHERE grade = 'C' AND country='USA';
+```
+
+- we can any condition for delegation.
