@@ -355,3 +355,115 @@ where country <> 'USA';
 SELECT * FROM students
 where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')
 ```
+
+## 8-6 Exploring Scalar and Aggregate Functions in PostgreSQL
+
+#### `Upper()` Function
+
+- Suppose we want to see the first_name of all in capital word while seeing. we can use `upper()` function to see.
+
+```sql
+SELECT upper(first_name) FROM students;
+```
+
+- if we want to see the upper cased first_name and all the table data we have to use this.
+
+```sql
+SELECT upper(first_name),* FROM students;
+```
+
+![alt text](image-12.png)
+
+- This is doing something like taking the first name and creating a column named upper and keeping there.
+- we can change the name of the column as well using alias
+
+```sql
+SELECT upper(first_name) as first_name_in_upper_case, * FROM students;
+```
+
+#### `Concat()` Function
+
+- Suppose we want to see the first name and the last name to form a full name we can use concat
+
+```sql
+SELECT concat(first_name, last_name) FROM students;
+```
+
+```sql
+SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+```
+
+![alt text](image-13.png)
+
+#### `Length()` Function
+
+```sql
+SELECT length(first_name) FROM students;
+```
+
+#### Functions in depth in postgres
+
+- `upper()`, `concat()` these are called Functions(scaler) in Postgres
+- there two types of functions in postgres
+
+  1. `Scaler`: Operate ona single value and return a single value. they perform an operation on each rows data independently. This function will run one time against one row and will give value for each row and will run independently as a result there will no connection on previous or upcoming row. If we call scaler function we will get multiple data since it will give data for each row.
+
+  ```sql
+  SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+  ```
+
+  ![alt text](<WhatsApp Image 2025-05-17 at 14.47.56_7bcc3448.jpg>)
+
+##### There are some `scaler` functions
+
+- `UPPER()` Converts a string to uppercase
+- `LOWER()` Converts a string to Lowercase
+- `CONCAT()` Concatenates two or more strings
+- `LENGTH()` Returns the number of characters in a string
+
+  1. `Aggregate` : Aggregate Function operate on a set of values and return a single value summarizing the set. They perform an operation across multiple rows, often used with `GROUP BY` clause.
+
+  ![alt text](<WhatsApp Image 2025-05-17 at 14.51.50_6449e6c5.jpg>)
+
+##### There are some `aggregation` functions
+
+- `AVG()` Calculate the average of a set of values
+
+  ```sql
+  select avg(age) from students;
+  ```
+
+- `MAX()` Returns the max value in a set
+
+  ```sql
+  select max(age) from students;
+  ```
+
+- `MIN()` Returns the minimum values in a set
+
+  ```sql
+  select min(age) from students;
+  ```
+
+- `SUM()` Calculates the sum of values in a set
+
+  ```sql
+  select sum(age) from students;
+  ```
+
+- `COUNT()` Counts The number of rows in a set
+
+  ```sql
+  select count(*) from students;
+  -- This will count the rows
+  ```
+
+##### We can use the `scaler` and `aggregate` function together as well
+
+- suppose we want see whose first_name length is maximum?
+
+```sql
+SELECT max(length(first_name)) FROM students
+```
+
+![alt text](image-14.png)

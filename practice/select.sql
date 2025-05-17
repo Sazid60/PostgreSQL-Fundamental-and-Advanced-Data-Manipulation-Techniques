@@ -102,3 +102,23 @@ where country <> 'USA';
 
 SELECT * FROM students
 where (course = 'Math' OR course='Physics') AND (grade = 'A' OR grade = 'B')
+
+SELECT * FROM students
+
+SELECT upper(first_name),* FROM students;
+
+SELECT upper(first_name) as first_name_in_upper_case, * FROM students;
+
+SELECT concat(first_name, ' ', last_name) as full_name FROM students;
+
+SELECT length(first_name) FROM students;
+
+select avg(age) from students;
+
+select max(age) from students;
+select min(age) from students;
+select sum(age) from students;
+
+select count(*) from students;
+
+SELECT max(length(first_name)) FROM students
