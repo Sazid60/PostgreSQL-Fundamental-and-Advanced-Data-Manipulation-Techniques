@@ -213,3 +213,11 @@ DELETE FROM students
 WHERE grade = 'B';
 DELETE FROM students
 WHERE grade = 'C' AND country='USA';
+
+UPDATE students 
+set email = 'default@email.com'
+where student_id = 1;
+
+UPDATE students 
+set email = 'default@email.com', age = 100, course = 'CS50'
+where student_id = 20;

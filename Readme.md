@@ -730,3 +730,92 @@ WHERE grade = 'C' AND country='USA';
 ```
 
 - we can any condition for delegation.
+
+## 8-10 Understanding and Using the UPDATE Operator in PostgreSQL
+
+- There is a issue with the serial number, even if all the data is deleted the serial number will start from the last number he had perviously. This is default behavior
+
+- This is how we can change email maintaining the condition.
+
+```sql
+UPDATE students
+set email = 'default@email.com'
+where student_id = 1;
+```
+
+- we can update multiple column data at a time
+
+```sql
+UPDATE students
+set email = 'default@email.com', age = 100, course = 'CS50'
+where student_id = 20;
+```
+
+## Practice Task
+
+Practice Tasks: Module-8
+
+https://docs.google.com/document/d/1yxfMf68CPgHahza6aAkL_eauCsNeoEc9uwbHPNuR-RM/mobilebasic?usp=embed_facebook
+
+Demo Table Overview
+All of the following tasks are based on a sample table named students. Use this as a reference while solving the following tasks. Here's a quick overview of the structure:
+
+Column Name
+
+Description
+
+id
+
+Auto-incremented primary key
+
+roll
+
+Unique roll number for each student
+
+name
+
+Name of the student
+
+age
+
+Age of the student
+
+department
+
+Student’s department (e.g., CSE, EEE)
+
+score
+
+Score achieved by the student
+
+status
+
+Academic status (e.g., passed, failed)
+
+last_login
+
+Last login date
+
+Table Alteration Tasks (Based on 8-1 to 8-3)
+Add a column email (VARCHAR) to the existing students table.
+Rename the column email to student_email.
+Add a UNIQUE constraint to student_email.
+Add a PRIMARY KEY to a new table named courses.
+Drop a column from any existing table.
+
+Filtering & Logical Operations (Based on 8-5, 8-7, 8-8)
+Write a query to find all students who have a score greater than 80 and not null.
+Use the NOT operator to exclude students from a specific department.
+Fetch students whose names start with ‘A’ using LIKE and ILIKE.
+Select all students whose age is between 18 and 25.
+Retrieve rows using IN for a specific set of roll numbers.
+
+Aggregate Functions (Based on 8-6)
+Count how many students exist in the students table.
+Find the average score of students in a specific department.
+Get the maximum and minimum age of all students.
+
+Update & Delete Operations (Based on 8-9, 8-10)
+Update the status of students who scored less than 50 to 'failed'.
+Delete students who have not logged in since last year.
+Use LIMIT and OFFSET to fetch the second page of results (5 per page).
