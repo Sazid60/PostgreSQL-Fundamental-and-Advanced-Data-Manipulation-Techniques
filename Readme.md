@@ -555,3 +555,99 @@ SELECT COALESCE(email,'No Email') from students;
 
 SELECT COALESCE(email,'No Email') as "Email", blood_group, first_name from students;
 ```
+
+## 8-8 Exploring IN, BETWEEN, LIKE, and ILIKE Operators in PostgreSQL.
+
+#### `IN` keyword usage
+
+- suppose we want to see who are from USA,UK,Canada
+
+```sql
+SELECT * FROM  students
+WHERE country='USA' OR country='UK' OR country='Canada';
+```
+
+- This is lengthy query and some repetitive things we are writing. so we can use `IN` keyword
+
+```sql
+SELECT * FROM  students
+WHERE country IN('USA','UK','Canada');
+```
+
+- This doing same thing like multiple or
+
+#### `NOT IN` keyword usage
+
+- This is reverse of `IN` keyword. and giving who are not from USA,UK,Canada
+
+```sql
+SELECT * FROM  students
+WHERE country NOT IN('USA','UK','Canada');
+```
+
+#### `BETWEEN` Keyword usage
+
+- Suppose we want to grab the students who's are age in between 18-20
+
+```sql
+SELECT * FROM students
+WHERE age BETWEEN 19 AND 20
+```
+
+- this `between` used more with date
+
+```sql
+SELECT * FROM students
+WHERE dob BETWEEN '2001-01-14' AND '2003-01-14'
+```
+
+- we can sort as well
+
+```sql
+SELECT * FROM students
+WHERE dob BETWEEN '2001-01-14' AND '2003-01-14' ORDER BY dob;
+```
+
+#### `LIKE` operator usage
+
+- Its kind of search. I8 will give pattern like string, if anything matches with it, it will return the data.
+- Its like regex
+- suppose we want the name who has `n` at the end
+
+```sql
+SELECT * FROM students
+where last_name LIKE '%n';
+```
+
+- Here % means before `n` anything could be but it will end with `n` word.
+
+```sql
+SELECT * FROM students
+where last_name LIKE 'A%';
+```
+
+- Here % means after `A` anything could be but it will start with `A` word.
+- `LIKE` is case sensitive.
+
+```sql
+SELECT * FROM students
+where first_name LIKE '__a%';
+```
+
+- This means after first two character third character will `a` and after a there can be anything.
+
+![alt text](image-17.png)
+
+```sql
+SELECT * FROM students
+where first_name LIKE '___a_';
+```
+
+#### `ILIKE` usage
+
+- `ILIKE` is cas insensitive
+
+```sql
+SELECT * FROM students
+where last_name ILIKE 'a%';
+```
