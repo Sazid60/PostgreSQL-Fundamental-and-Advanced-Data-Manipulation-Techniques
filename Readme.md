@@ -97,6 +97,16 @@ ALTER COLUMN user_age set NOT NULL;
 
 - This will make user_age not null
 - We can use any constrain
+- for check we have to do it differently
+
+```sql
+ALTER TABLE person2
+ADD CONSTRAINT age_check CHECK (user_age  >= 10);
+
+ALTER TABLE person2
+DROP CONSTRAINT age_check;
+
+```
 
 #### Remove a Constrain from existing column.
 
@@ -757,65 +767,164 @@ Practice Tasks: Module-8
 
 https://docs.google.com/document/d/1yxfMf68CPgHahza6aAkL_eauCsNeoEc9uwbHPNuR-RM/mobilebasic?usp=embed_facebook
 
-Demo Table Overview
-All of the following tasks are based on a sample table named students. Use this as a reference while solving the following tasks. Here's a quick overview of the structure:
+# Module-8 Practice Tasks: SQL Exercises on Students Table
 
-Column Name
+This repository contains SQL practice tasks based on a sample table named `students`.  
+Use this as a reference while solving the tasks.
 
-Description
+---
 
-id
+## Table Overview
 
-Auto-incremented primary key
+| Column Name  | Description                            |
+| ------------ | -------------------------------------- |
+| `id`         | Auto-incremented primary key           |
+| `roll`       | Unique roll number for each student    |
+| `name`       | Name of the student                    |
+| `age`        | Age of the student                     |
+| `department` | Student’s department (e.g., CSE, EEE)  |
+| `score`      | Score achieved by the student          |
+| `status`     | Academic status (e.g., passed, failed) |
+| `last_login` | Last login date                        |
 
-roll
+---
 
-Unique roll number for each student
+## Table Alteration Tasks
 
-name
+1. **Add a column `email` (VARCHAR) to the existing `students` table**
 
-Name of the student
+   ```sql
+   ALTER TABLE students
+   ADD COLUMN email VARCHAR(100);
+   ```
 
-age
+2. **Rename the column `email` to `student_email`**
 
-Age of the student
+   ```sql
+   ALTER TABLE students
+   RENAME COLUMN email TO student_email;
+   ```
 
-department
+3. **Add a UNIQUE constraint to `student_email`**
 
-Student’s department (e.g., CSE, EEE)
+   ```sql
+   ALTER TABLE students
+   ADD CONSTRAINT unique_student_email UNIQUE(student_email);
+   ```
 
-score
+4. **Add a PRIMARY KEY to a new table named `courses`**
 
-Score achieved by the student
+   ```sql
+   CREATE TABLE courses (
+       course_id SERIAL PRIMARY KEY,
+       course_name VARCHAR(100)
+   );
+   ```
 
-status
+5. **Drop a column from any existing table**
 
-Academic status (e.g., passed, failed)
+   ```sql
+   ALTER TABLE students
+   DROP COLUMN student_email;
+   ```
 
-last_login
+---
 
-Last login date
+## Filtering & Logical Operations
 
-Table Alteration Tasks (Based on 8-1 to 8-3)
-Add a column email (VARCHAR) to the existing students table.
-Rename the column email to student_email.
-Add a UNIQUE constraint to student_email.
-Add a PRIMARY KEY to a new table named courses.
-Drop a column from any existing table.
+1. **Find all students who have a score greater than 80 and not null**
 
-Filtering & Logical Operations (Based on 8-5, 8-7, 8-8)
-Write a query to find all students who have a score greater than 80 and not null.
-Use the NOT operator to exclude students from a specific department.
-Fetch students whose names start with ‘A’ using LIKE and ILIKE.
-Select all students whose age is between 18 and 25.
-Retrieve rows using IN for a specific set of roll numbers.
+   ```sql
+   SELECT * FROM students
+   WHERE score > 80 AND score IS NOT NULL;
+   ```
 
-Aggregate Functions (Based on 8-6)
-Count how many students exist in the students table.
-Find the average score of students in a specific department.
-Get the maximum and minimum age of all students.
+2. **Use the NOT operator to exclude students from a specific department**
 
-Update & Delete Operations (Based on 8-9, 8-10)
-Update the status of students who scored less than 50 to 'failed'.
-Delete students who have not logged in since last year.
-Use LIMIT and OFFSET to fetch the second page of results (5 per page).
+   ```sql
+   SELECT * FROM students
+   WHERE NOT department = 'CSE';
+   ```
+
+3. **Fetch students whose names start with ‘A’ using LIKE and ILIKE**
+
+   ```sql
+   -- Case-sensitive
+   SELECT * FROM students
+   WHERE name LIKE 'A%';
+
+   -- Case-insensitive
+   SELECT * FROM students
+   WHERE name ILIKE 'a%';
+   ```
+
+4. **Select all students whose age is between 18 and 25**
+
+   ```sql
+   SELECT * FROM students
+   WHERE age BETWEEN 18 AND 25;
+   ```
+
+5. **Retrieve rows using IN for a specific set of roll numbers**
+
+   ```sql
+   SELECT * FROM students
+   WHERE roll IN (101, 102, 105);
+   ```
+
+---
+
+## Aggregate Functions
+
+1. **Count how many students exist in the students table**
+
+   ```sql
+   SELECT COUNT(*) AS total_students FROM students;
+   ```
+
+2. **Find the average score of students in a specific department**
+
+   ```sql
+   SELECT AVG(score) AS avg_score
+   FROM students
+   WHERE department = 'CSE';
+   ```
+
+3. **Get the maximum and minimum age of all students**
+
+   ```sql
+   SELECT MAX(age) AS max_age, MIN(age) AS min_age FROM students;
+   ```
+
+---
+
+## Update & Delete Operations
+
+1. **Update the status of students who scored less than 50 to 'failed'**
+
+   ```sql
+   UPDATE students
+   SET status = 'failed'
+   WHERE score < 50;
+   ```
+
+2. **Delete students who have not logged in since last year**
+
+   ```sql
+   DELETE FROM students
+   WHERE last_login < CURRENT_DATE - INTERVAL '1 year';
+   ```
+
+3. **Use LIMIT and OFFSET to fetch the second page of results (5 per page)**
+
+   ```sql
+   SELECT * FROM students
+   ORDER BY id
+   LIMIT 5 OFFSET 5;
+   ```
+
+---
+
+Feel free to use these queries to practice and test your SQL skills!
+
+---
